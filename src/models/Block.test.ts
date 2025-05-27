@@ -25,18 +25,38 @@ describe('Block', () => {
       expect(block.difficulty).toBe(3);
     });
   });
-});
+  describe('Genesis Block', () => {
+    it('should create a genesis block', () => {
+      const genesisBlock = Block.genesis();
 
-describe('Genesis Block', () => {
-  it('should create a genesis block', () => {
-    const genesisBlock = Block.genesis();
+      expect(genesisBlock).toBeInstanceOf(Block);
+      expect(genesisBlock.timestamp).toBeDefined();
+      expect(genesisBlock.hash).toBe('#1');
+      expect(genesisBlock.lastHash).toBe('#######');
+      expect(genesisBlock.data).toEqual([]);
+      expect(genesisBlock.nonce).toBe(0);
+      expect(genesisBlock.difficulty).toBeDefined();
+    });
+  });
+  describe('Mining functionality', () => {
+    it('should mine a block with correct properties', () => {
+      const previousBlock = Block.genesis();
+      const data = ['transaction1', 'transaction2'];
 
-    expect(genesisBlock).toBeInstanceOf(Block);
-    expect(genesisBlock.timestamp).toBeDefined();
-    expect(genesisBlock.hash).toBe('#1');
-    expect(genesisBlock.lastHash).toBe('#######');
-    expect(genesisBlock.data).toEqual([]);
-    expect(genesisBlock.nonce).toBe(0);
-    expect(genesisBlock.difficulty).toBeDefined();
+      const minedBlock = Block.mineBlock({ previousBlock, data });
+
+      // Basic properties
+      expect(minedBlock).toBeInstanceOf(Block);
+      expect(minedBlock.lastHash).toBe(previousBlock.hash);
+      expect(minedBlock.data).toEqual(data);
+      expect(minedBlock.timestamp).toBeDefined();
+      expect(minedBlock.nonce).toBeGreaterThan(0);
+
+      // Mining validation - hash should start with zeros based on difficulty
+      const leadingZeros = '0'.repeat(minedBlock.difficulty);
+      expect(minedBlock.hash.substring(0, minedBlock.difficulty)).toBe(
+        leadingZeros
+      );
+    });
   });
 });
