@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import blockchainRoutes from './routes/blockchain-routes';
+import errorHandler from './middleware/errorHandler';
 
 // Load environment variables
 dotenv.config();
@@ -22,6 +23,9 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+//Error handling middleware
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`🚀 Sandinos Barn Blockchain API running on port ${PORT}`);

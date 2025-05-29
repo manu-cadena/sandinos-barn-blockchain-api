@@ -31,7 +31,9 @@ describe('Block', () => {
 
       expect(genesisBlock).toBeInstanceOf(Block);
       expect(genesisBlock.timestamp).toBeDefined();
-      expect(genesisBlock.hash).toBe('#1');
+      expect(genesisBlock.hash).toBe(
+        '0000000000000000000000000000000000000000000000000000000000000000'
+      );
       expect(genesisBlock.lastHash).toBe('#######');
       expect(genesisBlock.data).toEqual([]);
       expect(genesisBlock.nonce).toBe(0);
