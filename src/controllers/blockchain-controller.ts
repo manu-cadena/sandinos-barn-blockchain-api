@@ -1,20 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
-import Blockchain from '../models/Blockchain';
+import BlockchainService from '../services/BlockchainService';
 import AppError from '../utilities/AppError';
+import logger from '../utilities/logger';
 
-const blockchain = new Blockchain();
+const blockchainService = BlockchainService.getInstance();
 
-export const listAllBlocks = (
+export const initializeBlockchain = async (): Promise<void> => {
+  await blockchainService.initialize();
+};
+
+export const listAllBlocks = async (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): Promise<void> => {
   try {
-    console.log(
-      `📊 GET /api/blocks - Chain length: ${blockchain.chain.length}`
-    );
+    const blockchain = blockchainService.getBlockchain();
 
-    // Simulate potential error (you can remove this later)
     if (blockchain.chain.length === 0) {
       throw new AppError('Blockchain is empty', 404);
     }
@@ -24,40 +26,38 @@ export const listAllBlocks = (
       data: blockchain,
     });
   } catch (error) {
-    next(error); // Pass error to middleware
+    next(error);
   }
 };
 
-export const addBlock = (
+export const addBlock = async (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): Promise<void> => {
   try {
     const { data } = req.body;
+    const blockchain = blockchainService.getBlockchain();
 
-    // Validation - throw AppError for bad input
+    // Validation
     if (!data) {
       throw new AppError('Data is required to create a block', 400);
     }
-
     if (!Array.isArray(data)) {
       throw new AppError('Data must be an array', 400);
     }
-
     if (data.length === 0) {
       throw new AppError('Data array cannot be empty', 400);
     }
 
-    console.log(`⛏️  Mining new block with data:`, data);
-    console.log(`📊 Chain length before mining: ${blockchain.chain.length}`);
+    logger.info('Mining new block', { dataLength: data.length });
 
-    blockchain.addBlock({ data });
+    await blockchain.addBlock({ data });
 
-    console.log(`📊 Chain length after mining: ${blockchain.chain.length}`);
-    console.log(
-      `🎉 New block hash: ${blockchain.chain[blockchain.chain.length - 1].hash}`
-    );
+    logger.info('Block mined successfully', {
+      chainLength: blockchain.chain.length,
+      blockHash: blockchain.chain[blockchain.chain.length - 1].hash,
+    });
 
     res.status(201).json({
       success: true,
@@ -65,33 +65,24 @@ export const addBlock = (
       data: blockchain.chain,
     });
   } catch (error) {
-    next(error); // Pass error to middleware
+    logger.error('Failed to add block', { error: (error as Error).message });
+    next(error);
   }
 };
 
-// Get single block by hash
-export const getBlockByHash = (
+export const getBlockByHash = async (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): Promise<void> => {
   try {
     const { hash } = req.params;
+    const blockchain = blockchainService.getBlockchain();
 
-    // DEBUG: Let's see what we're actually receiving
-    console.log('🔍 Received hash parameter:', hash);
-    console.log('🔍 Hash length:', hash?.length);
-    console.log('🔍 Available hashes in blockchain:');
-    blockchain.chain.forEach((block, index) => {
-      console.log(`   Block ${index}: ${block.hash}`);
-    });
-
-    // Validation
     if (!hash || hash.trim() === '') {
       throw new AppError('Block hash is required', 400);
     }
 
-    // Find block by hash
     const block = blockchain.chain.find((block) => block.hash === hash);
 
     if (!block) {

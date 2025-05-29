@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import AppError from '../utilities/AppError';
-
+import { logErrorToFile } from '../utilities/fileUtils';
 interface ErrorResponse {
   success: boolean;
   status: string;
@@ -9,22 +9,26 @@ interface ErrorResponse {
   stack?: string;
 }
 
-const errorHandler = (
+const errorHandler = async (
   err: Error | AppError,
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): Promise<void> => {
   let error = { ...err } as AppError;
   error.message = err.message;
 
   // Log error for debugging
-  console.error('Error occurred:', {
+  console.error('❌ Error occurred:', {
     message: err.message,
-    stack: err.stack,
     url: req.originalUrl,
     method: req.method,
     timestamp: new Date().toISOString(),
+  });
+
+  // Log error to file
+  logErrorToFile(err, req).catch((logErr) => {
+    console.error('Failed to log error to file:', logErr);
   });
 
   // Handle different error types
