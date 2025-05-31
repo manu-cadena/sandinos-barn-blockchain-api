@@ -1,5 +1,6 @@
 import Block from './Block';
 import { createHash } from '../utilities/hash';
+import logger from '../utilities/logger';
 import {
   saveBlockchainToFile,
   loadBlockchainFromFile,
@@ -21,17 +22,22 @@ class Blockchain {
         // Validate the loaded chain before using it
         if (Blockchain.isValid(savedChain)) {
           this.chain = savedChain;
-          console.log(`📂 Loaded ${savedChain.length} blocks from file`);
+
+          logger.info('Blockchain loaded from file', {
+            blockCount: savedChain.length,
+          });
         } else {
-          console.log('⚠️  Saved blockchain is invalid, starting fresh');
+          logger.warn('Saved blockchain invalid, starting fresh');
           await this.saveToFile(); // Save the fresh genesis chain
         }
       } else {
-        console.log('📄 Starting with fresh blockchain');
+        logger.info('Starting with fresh blockchain');
         await this.saveToFile(); // Save initial genesis block
       }
     } catch (error) {
-      console.error('❌ Error initializing blockchain:', error);
+      logger.error('Error initializing blockchain', {
+        error: (error as Error).message,
+      });
       // Continue with genesis block if loading fails
     }
   }
@@ -47,33 +53,42 @@ class Blockchain {
     // Save to file after adding block
     try {
       await this.saveToFile();
-      console.log('💾 Blockchain saved after mining new block');
+      logger.info('Block added and blockchain saved', {
+        blockHash: addedBlock.hash,
+        chainLength: this.chain.length,
+      });
     } catch (error) {
-      console.error('❌ Failed to save blockchain after mining:', error);
-      // Block was added to memory, but not saved - could be handled differently
+      logger.error('Failed to save blockchain after mining', {
+        error: (error as Error).message,
+      });
     }
   }
 
   async replaceChain(chain: Block[]): Promise<void> {
     if (chain.length <= this.chain.length) {
-      console.log('Incoming chain must be longer');
+      logger.info('Chain replacement rejected - incoming chain not longer');
       return;
     }
 
     if (!Blockchain.isValid(chain)) {
-      console.log('Incoming chain must be valid');
+      logger.warn('Chain replacement rejected - incoming chain invalid');
       return;
     }
 
-    console.log('Replacing chain with new chain');
+    logger.info('Replacing blockchain with new chain', {
+      oldLength: this.chain.length,
+      newLength: chain.length,
+    });
     this.chain = chain;
 
     // Save the new chain to file
     try {
       await this.saveToFile();
-      console.log('💾 New blockchain saved after replacement');
+      logger.info('New blockchain saved after replacement');
     } catch (error) {
-      console.error('❌ Failed to save new blockchain:', error);
+      logger.error('Failed to save new blockchain', {
+        error: (error as Error).message,
+      });
     }
   }
 

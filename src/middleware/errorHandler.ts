@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import AppError from '../utilities/AppError';
 import { logErrorToFile } from '../utilities/fileUtils';
+import logger from '../utilities/logger';
 interface ErrorResponse {
   success: boolean;
   status: string;
@@ -18,17 +19,16 @@ const errorHandler = async (
   let error = { ...err } as AppError;
   error.message = err.message;
 
-  // Log error for debugging
-  console.error('❌ Error occurred:', {
-    message: err.message,
-    url: req.originalUrl,
-    method: req.method,
-    timestamp: new Date().toISOString(),
-  });
-
   // Log error to file
   logErrorToFile(err, req).catch((logErr) => {
     console.error('Failed to log error to file:', logErr);
+  });
+
+  logger.error('HTTP Error occurred', {
+    messege: err.message,
+    url: req.originalUrl,
+    method: req.method,
+    statusCode: error.statusCode,
   });
 
   // Handle different error types

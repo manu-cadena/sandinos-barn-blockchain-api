@@ -4,7 +4,7 @@ import {
   listAllBlocks,
   addBlock,
   getBlockByHash,
-} from './blockchain-controller'; // Updated import
+} from './blockchain-controller';
 
 describe('Blockchain Controller', () => {
   let req: Partial<Request>;
@@ -14,7 +14,6 @@ describe('Blockchain Controller', () => {
   let jsonMock: any;
 
   beforeEach(() => {
-    // Mock Express request, response, and next
     req = {};
     nextMock = vi.fn();
     jsonMock = vi.fn();
@@ -26,8 +25,8 @@ describe('Blockchain Controller', () => {
   });
 
   describe('listAllBlocks', () => {
-    it('should return blockchain with success status', () => {
-      listAllBlocks(req as Request, res as Response, nextMock);
+    it('should return blockchain with success status', async () => {
+      await listAllBlocks(req as Request, res as Response, nextMock);
 
       expect(statusMock).toHaveBeenCalledWith(200);
       expect(jsonMock).toHaveBeenCalledWith({
@@ -38,10 +37,11 @@ describe('Blockchain Controller', () => {
   });
 
   describe('addBlock', () => {
-    it('should add block and return success response', () => {
+    it('should add block and return success response', async () => {
       req.body = { data: ['transaction1', 'transaction2'] };
 
-      addBlock(req as Request, res as Response, nextMock);
+      // Make sure to await the async function!
+      await addBlock(req as Request, res as Response, nextMock);
 
       expect(statusMock).toHaveBeenCalledWith(201);
       expect(jsonMock).toHaveBeenCalledWith({
@@ -50,12 +50,38 @@ describe('Blockchain Controller', () => {
         data: expect.any(Array),
       });
     });
+
+    it('should handle missing data error', async () => {
+      req.body = {}; // No data
+
+      await addBlock(req as Request, res as Response, nextMock);
+
+      // Should call next with an error (not res.status)
+      expect(nextMock).toHaveBeenCalledWith(expect.any(Error));
+      expect(statusMock).not.toHaveBeenCalled();
+    });
+
+    it('should handle invalid data type error', async () => {
+      req.body = { data: 'not an array' };
+
+      await addBlock(req as Request, res as Response, nextMock);
+
+      expect(nextMock).toHaveBeenCalledWith(expect.any(Error));
+      expect(statusMock).not.toHaveBeenCalled();
+    });
   });
 
-  // Basic test for new function (we can expand later)
   describe('getBlockByHash', () => {
     it('should be a function', () => {
       expect(typeof getBlockByHash).toBe('function');
+    });
+
+    it('should handle missing hash error', async () => {
+      req.params = { hash: '' };
+
+      await getBlockByHash(req as Request, res as Response, nextMock);
+
+      expect(nextMock).toHaveBeenCalledWith(expect.any(Error));
     });
   });
 });
