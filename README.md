@@ -182,11 +182,7 @@ This project demonstrates:
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Add tests for new functionality
-4. Ensure all tests pass
-5. Submit a pull request
+This project was built as part of a blockchain development course. For educational use and NGO applications.
 
 ## 📄 License
 

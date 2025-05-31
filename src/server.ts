@@ -28,7 +28,7 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Error handling middleware (MUST BE LAST!)
+// Error handling middleware
 app.use(errorHandler);
 
 const startServer = async () => {
@@ -50,11 +50,11 @@ const startServer = async () => {
     });
   } catch (error) {
     logger.error('Failed to start server', error);
+    console.error('❌ Failed to start server:', error);
     process.exit(1);
   }
 };
 
-// Start the server
 startServer();
 
 export default app;
