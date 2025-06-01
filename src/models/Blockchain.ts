@@ -51,16 +51,18 @@ class Blockchain {
     this.chain.push(addedBlock);
 
     // Save to file after adding block
-    try {
-      await this.saveToFile();
-      logger.info('Block added and blockchain saved', {
-        blockHash: addedBlock.hash,
-        chainLength: this.chain.length,
-      });
-    } catch (error) {
-      logger.error('Failed to save blockchain after mining', {
-        error: (error as Error).message,
-      });
+    if (process.env.NODE_ENV !== 'test' && !process.env.VITEST) {
+      try {
+        await this.saveToFile();
+        logger.info('Block added and blockchain saved', {
+          blockHash: addedBlock.hash,
+          chainLength: this.chain.length,
+        });
+      } catch (error) {
+        logger.error('Failed to save blockchain after mining', {
+          error: (error as Error).message,
+        });
+      }
     }
   }
 
@@ -82,13 +84,15 @@ class Blockchain {
     this.chain = chain;
 
     // Save the new chain to file
-    try {
-      await this.saveToFile();
-      logger.info('New blockchain saved after replacement');
-    } catch (error) {
-      logger.error('Failed to save new blockchain', {
-        error: (error as Error).message,
-      });
+    if (process.env.NODE_ENV !== 'test' && !process.env.VITEST) {
+      try {
+        await this.saveToFile();
+        logger.info('New blockchain saved after replacement');
+      } catch (error) {
+        logger.error('Failed to save new blockchain', {
+          error: (error as Error).message,
+        });
+      }
     }
   }
 

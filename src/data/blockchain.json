@@ -8,139 +8,57 @@
     "difficulty": 3
   },
   {
-    "timestamp": 1748544468538,
-    "hash": "00985790bf8f6f70c0634550f1836bfcf695958ef281f7da79763420aff7d850",
+    "timestamp": 1748806774620,
+    "hash": "00ff453b7617e14557a19e0e483f20a007b04bd9453a226f1c823c98840f58be",
     "lastHash": "0000000000000000000000000000000000000000000000000000000000000000",
     "data": [
       {
-        "id": "donation_1748544468535_n30unx0fs",
-        "donor": "Anna",
-        "amount": 1500,
+        "id": "donation_1748806774619_giu5el3my",
+        "donor": "Massiel",
+        "amount": 150,
         "currency": "SEK",
         "purpose": "School supplies for children",
-        "timestamp": "2025-05-29T18:47:48.535Z",
+        "timestamp": "2025-06-01T19:39:34.619Z",
         "verified": false
       }
     ],
-    "nonce": 262,
+    "nonce": 137,
     "difficulty": 2
   },
   {
-    "timestamp": 1748544610548,
-    "hash": "0125d6ac715777b122008454bb85772f9f510e8903daa97733a40a012806b3a3",
-    "lastHash": "00985790bf8f6f70c0634550f1836bfcf695958ef281f7da79763420aff7d850",
+    "timestamp": 1748806801862,
+    "hash": "09d09a5423ba46cb19434bfce69e8866979d4cc2f6c752da8510c8de4c238f59",
+    "lastHash": "00ff453b7617e14557a19e0e483f20a007b04bd9453a226f1c823c98840f58be",
     "data": [
       {
-        "id": "donation_1748544610548_efeue1wc2",
-        "donor": "Massiel",
-        "amount": 10,
-        "currency": "SEK",
-        "purpose": "School supplies for children",
-        "timestamp": "2025-05-29T18:50:10.548Z",
-        "verified": false
-      }
-    ],
-    "nonce": 1,
-    "difficulty": 1
-  },
-  {
-    "timestamp": 1748545253975,
-    "hash": "406651c452c8b38569e040cd953dfc1b1ed9efa9cd672eb66dc276f9baac2da3",
-    "lastHash": "0125d6ac715777b122008454bb85772f9f510e8903daa97733a40a012806b3a3",
-    "data": [
-      {
-        "id": "donation_1748545253975_x6ri2nkua",
-        "donor": "Anna",
-        "amount": 200,
-        "currency": "SEK",
-        "purpose": "School supplies for children",
-        "timestamp": "2025-05-29T19:00:53.975Z",
-        "verified": false
-      }
-    ],
-    "nonce": 1,
-    "difficulty": 0
-  },
-  {
-    "timestamp": 1748548865192,
-    "hash": "0abdf59df52d25f0407950ffd01227b8173c4d905d00759b5ec34488a041ea2a",
-    "lastHash": "406651c452c8b38569e040cd953dfc1b1ed9efa9cd672eb66dc276f9baac2da3",
-    "data": [
-      "test5"
-    ],
-    "nonce": 17,
-    "difficulty": 1
-  },
-  {
-    "timestamp": 1748548922236,
-    "hash": "be43ff4bd5af5cc9b5b43a7e90be735f95a469ac00304516c29f69df77000845",
-    "lastHash": "0abdf59df52d25f0407950ffd01227b8173c4d905d00759b5ec34488a041ea2a",
-    "data": [
-      {
-        "id": "donation_1748548922236_c0t9tt5qd",
-        "donor": "Ashley",
-        "amount": 340,
-        "currency": "SEK",
-        "purpose": "School supplies for children",
-        "timestamp": "2025-05-29T20:02:02.236Z",
-        "verified": false
-      }
-    ],
-    "nonce": 1,
-    "difficulty": 0
-  },
-  {
-    "timestamp": 1748549823714,
-    "hash": "09dc1ec840dc126841eaa8c862ac91661f1fa7a81fa3f9c4b1bd4c485182a3cb",
-    "lastHash": "be43ff4bd5af5cc9b5b43a7e90be735f95a469ac00304516c29f69df77000845",
-    "data": [
-      {
-        "id": "donation_1748549823713_s0o1upboi",
-        "donor": "Amparo",
-        "amount": 1000,
-        "currency": "SEK",
-        "purpose": "To Ramses child",
-        "timestamp": "2025-05-29T20:17:03.713Z",
-        "verified": false
-      }
-    ],
-    "nonce": 13,
-    "difficulty": 1
-  },
-  {
-    "timestamp": 1748552516896,
-    "hash": "b05bbb63789f4544dace83f62218926b10ed8d2fc58fe15494211af1eb18e055",
-    "lastHash": "09dc1ec840dc126841eaa8c862ac91661f1fa7a81fa3f9c4b1bd4c485182a3cb",
-    "data": [
-      {
-        "id": "donation_1748552516895_77pyhsfie",
-        "donor": "Jessica",
-        "amount": 150,
-        "currency": "SEK",
-        "purpose": "TSchool supplies for children",
-        "timestamp": "2025-05-29T21:01:56.895Z",
-        "verified": false
-      }
-    ],
-    "nonce": 1,
-    "difficulty": 0
-  },
-  {
-    "timestamp": 1748552551874,
-    "hash": "0064290d38b52a2efaba65af66dcdb82bec4c44824168d986d1dc4a4139f3151",
-    "lastHash": "b05bbb63789f4544dace83f62218926b10ed8d2fc58fe15494211af1eb18e055",
-    "data": [
-      {
-        "id": "donation_1748552551872_c8mtx84f1",
+        "id": "donation_1748806801861_plz3k9v5b",
         "donor": "Sebastian",
-        "amount": 200,
+        "amount": 500,
         "currency": "SEK",
         "purpose": "School supplies for children",
-        "timestamp": "2025-05-29T21:02:31.872Z",
+        "timestamp": "2025-06-01T19:40:01.861Z",
         "verified": false
       }
     ],
-    "nonce": 85,
+    "nonce": 23,
     "difficulty": 1
+  },
+  {
+    "timestamp": 1748806832979,
+    "hash": "b4cff22d5fb9daaa22311d1756bf24614ccc5975724e0ac8517bd1287e9ddb95",
+    "lastHash": "09d09a5423ba46cb19434bfce69e8866979d4cc2f6c752da8510c8de4c238f59",
+    "data": [
+      {
+        "id": "donation_1748806832978_x9sc2rn6h",
+        "donor": "Ashley",
+        "amount": 750,
+        "currency": "SEK",
+        "purpose": "School supplies for children",
+        "timestamp": "2025-06-01T19:40:32.978Z",
+        "verified": false
+      }
+    ],
+    "nonce": 1,
+    "difficulty": 0
   }
 ]

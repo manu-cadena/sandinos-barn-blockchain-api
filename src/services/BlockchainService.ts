@@ -19,6 +19,11 @@ class BlockchainService {
 
   public async initialize(): Promise<void> {
     if (!this.initialized) {
+      if (process.env.NODE_ENV === 'test' || process.env.VITEST) {
+        console.log('🧪 Test mode: Skipping file persistence');
+        this.initialized = true;
+        return;
+      }
       await this.blockchain.initialize();
       this.initialized = true;
     }
@@ -26,6 +31,13 @@ class BlockchainService {
 
   public getBlockchain(): Blockchain {
     return this.blockchain;
+  }
+
+  public resetForTesting(): void {
+    if (process.env.NODE_ENV === 'test' || process.env.VITEST) {
+      this.blockchain = new Blockchain();
+      this.initialized = false;
+    }
   }
 }
 

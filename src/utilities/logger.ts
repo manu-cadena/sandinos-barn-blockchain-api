@@ -48,8 +48,8 @@ class Logger {
       console.error('Failed to write to log file:', error);
     }
 
-    // Also log to console in development
-    if (process.env.NODE_ENV !== 'production') {
+    // Only show console logs in development
+    if (process.env.NODE_ENV === 'development' && !process.env.VITEST) {
       const emoji = this.getEmoji(level);
       console.log(`${emoji} [${level}] ${message}`, meta ? meta : '');
     }

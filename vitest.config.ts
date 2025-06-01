@@ -8,4 +8,7 @@ export default defineConfig({
   esbuild: {
     target: 'node18',
   },
+  define: {
+    'process.env.VITEST': 'true',
+  },
 });
