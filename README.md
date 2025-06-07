@@ -6,22 +6,22 @@ A transparent donation tracking system built with TypeScript, Express, and block
 
 Provides **complete transparency** for donations through an immutable blockchain ledger. Every donation is cryptographically secured and publicly verifiable.
 
-## ✨ Features
+## 🌟 Features
 
-- 🔒 **Proof-of-Work Security** - SHA-256 hashing with dynamic difficulty
-- 💾 **Persistent Storage** - Blockchain survives server restarts
-- 🏗️ **Professional Architecture** - MVC pattern with TypeScript
-- 📝 **Comprehensive Logging** - Application and error logs
-- 🧪 **Test Coverage** - 19 tests across core functionality
-- 🌐 **RESTful API** - Easy integration with web/mobile apps
-- 💝 **Donation Management** - Complex objects with full metadata
+🔒 Immutable Records - Donations stored in tamper-proof blockchain
+⛏️ Proof of Work - Secure mining with dynamic difficulty adjustment
+💾 Persistent Storage - Blockchain data survives server restarts
+🎯 Type Safety - Built with TypeScript for reliability
+🔍 Centralized Logging - Comprehensive application and error logging
+✅ Comprehensive Testing - 19+ tests ensuring code quality
+🏗️ Professional Architecture - Clean MVC pattern with repository layer
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - Node.js 18+
-- npm or yarn
+- npm 8+
 
 ### Installation
 
@@ -50,13 +50,13 @@ npm test
 ### Base URL
 
 ```
-http://localhost:3000
+The API will be available at http://localhost:3000
 ```
 
 ### Health Check
 
 ```http
-GET /health
+GET /health - Health check endpoint
 ```
 
 ### Donations API
@@ -69,16 +69,29 @@ Content-Type: application/json
 
 {
   "donor": "Alice Johnson",
-  "amount": 100,
+  "amount": 500,
   "currency": "USD",
-  "purpose": "School supplies for children"
+  "purposes": [
+    {
+      "category": "Education",
+      "description": "School supplies for children",
+      "amount": 300
+    },
+    {
+      "category": "Education",
+      "description": "School fees",
+      "amount": 200
+    }
+  ]
 }
 ```
+
+📡 API Endpoints
 
 #### Get All Donations
 
 ```http
-GET /api/donations
+GET /api/donations - List all donations across all blocks
 ```
 
 ### Blockchain API
@@ -86,19 +99,19 @@ GET /api/donations
 #### Get All Blocks
 
 ```http
-GET /api/blocks
+GET /api/blocks - List all blocks in the blockchain
 ```
 
 #### Get Block by Hash
 
 ```http
-GET /api/blocks/hash/{hash}
+GET /api/blocks/hash/{hash} - Get specific block by hash
 ```
 
 #### Mine Raw Block
 
 ```http
-POST /api/blocks/mine
+POST /api/blocks/mine - Mine a new block with custom data
 Content-Type: application/json
 
 {
@@ -110,15 +123,16 @@ Content-Type: application/json
 
 ```
 src/
-├── server.ts              # Application entry point
-├── config/
-│   └── constants.ts       # Blockchain configuration
-├── controllers/           # Request handlers
-├── middleware/            # Error handling
-├── models/               # Blockchain core logic
-├── routes/               # API endpoints
-├── services/             # Business logic layer
-└── utilities/            # Helper functions
+├── app.ts                # Express application setup
+├── server.ts             # Server startup and initialization
+├── config/               # Configuration constants
+├── controllers/          # Request handlers
+├── middleware/           # Express middleware
+├── models/              # Data models (Block, Blockchain, Donation)
+├── repositories/        # Data access layer
+├── routes/              # API route definitions
+├── services/            # Business logic services
+└── utilities/           # Helper utilities
 ```
 
 ## 🧪 Example Usage
@@ -129,11 +143,22 @@ src/
 curl -X POST http://localhost:3000/api/donations \
   -H "Content-Type: application/json" \
   -d '{
-    "donor": "Maria Garcia",
-    "amount": 50,
-    "currency": "USD",
-    "purpose": "Educational materials"
-  }'
+  "donor": "Anna",
+  "amount": 1000,
+  "currency": "SEK",
+  "purposes": [
+    {
+      "category": "Education",
+      "description": "School supplies for children",
+      "amount": 300
+    },
+    {
+      "category": "Education",
+      "description": "School fees",
+      "amount": 700
+    }
+  ]
+}'
 ```
 
 ### View All Donations

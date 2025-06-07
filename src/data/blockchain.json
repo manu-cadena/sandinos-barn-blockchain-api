@@ -60,5 +60,92 @@
     ],
     "nonce": 1,
     "difficulty": 0
+  },
+  {
+    "timestamp": 1749291797745,
+    "hash": "0a540397389df3d053350286198539425ad6d015e1096c504e7164110272efac",
+    "lastHash": "b4cff22d5fb9daaa22311d1756bf24614ccc5975724e0ac8517bd1287e9ddb95",
+    "data": [
+      {
+        "id": "donation_1749291797744_2mqxaqz8o",
+        "donor": "Ashley",
+        "amount": 750,
+        "currency": "SEK",
+        "purposes": [
+          {
+            "category": "Education",
+            "description": "School supplies for children",
+            "amount": 500
+          },
+          {
+            "category": "Education",
+            "description": "School fees",
+            "amount": 250
+          }
+        ],
+        "timestamp": "2025-06-07T10:23:17.744Z",
+        "verified": false
+      }
+    ],
+    "nonce": 38,
+    "difficulty": 1
+  },
+  {
+    "timestamp": 1749292427277,
+    "hash": "0bf803af9ba56509fc21424941ab19801a5da2a52f897139425a40285bcc6a05",
+    "lastHash": "0a540397389df3d053350286198539425ad6d015e1096c504e7164110272efac",
+    "data": [
+      {
+        "id": "donation_1749292427275_5sr7s7k6f",
+        "donor": "Anna",
+        "amount": 1000,
+        "currency": "SEK",
+        "purposes": [
+          {
+            "category": "Education",
+            "description": "School supplies for children",
+            "amount": 300
+          },
+          {
+            "category": "Education",
+            "description": "School fees",
+            "amount": 700
+          }
+        ],
+        "timestamp": "2025-06-07T10:33:47.275Z",
+        "verified": false
+      }
+    ],
+    "nonce": 1,
+    "difficulty": 0
+  },
+  {
+    "timestamp": 1749297849639,
+    "hash": "051bc848686c7ee50e00c443bb5c92acd34afee09aad39870cabedf2a21d9cd2",
+    "lastHash": "0bf803af9ba56509fc21424941ab19801a5da2a52f897139425a40285bcc6a05",
+    "data": [
+      {
+        "id": "donation_1749297849638_ouxozyhd2",
+        "donor": "Anna",
+        "amount": 1000,
+        "currency": "SEK",
+        "purposes": [
+          {
+            "category": "Education",
+            "description": "School supplies for children",
+            "amount": 300
+          },
+          {
+            "category": "Education",
+            "description": "School fees",
+            "amount": 700
+          }
+        ],
+        "timestamp": "2025-06-07T12:04:09.638Z",
+        "verified": false
+      }
+    ],
+    "nonce": 9,
+    "difficulty": 1
   }
 ]

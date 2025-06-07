@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import Donation from '../models/Donation';
-import BlockchainService from '../services/BlockchainService';
+import DonationRepository from '../repositories/DonationRepository'; // 🆕
 import AppError from '../utilities/AppError';
 import logger from '../utilities/logger';
 
-const blockchainService = BlockchainService.getInstance();
+const donationRepo = new DonationRepository();
 
 export const addDonation = async (
   req: Request,
@@ -12,12 +12,15 @@ export const addDonation = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { donor, amount, currency, purpose } = req.body;
-    const blockchain = blockchainService.getBlockchain();
+    const { donor, amount, currency, purposes } = req.body;
 
     // Validation
-    if (!donor || !amount || !purpose) {
-      throw new AppError('Donor, amount, and purpose are required', 400);
+    if (!donor || !amount || !purposes) {
+      throw new AppError('Donor, amount, and purposes are required', 400);
+    }
+
+    if (!Array.isArray(purposes) || purposes.length === 0) {
+      throw new AppError('Purposes must be a non-empty array', 400);
     }
 
     if (typeof amount !== 'number' || amount <= 0) {
@@ -29,29 +32,25 @@ export const addDonation = async (
       donor,
       amount,
       currency,
-      purpose,
-    });
-
-    logger.info('Recording donation', {
-      donor,
-      amount,
-      currency,
-      purpose,
-      donationId: donation.id,
+      purposes,
     });
 
     if (!donation.isValid()) {
       throw new AppError('Invalid donation data', 400);
     }
 
-    // Use the SAME blockchain instance!
-    await blockchain.addBlock({
-      data: [donation],
+    logger.info('Recording donation', {
+      donor,
+      amount,
+      currency,
+      donationId: donation.id,
     });
+
+    const result = await donationRepo.addDonation(donation);
 
     logger.info('Donation recorded in blockchain', {
       donationId: donation.id,
-      blockHash: blockchain.chain[blockchain.chain.length - 1].hash,
+      blockHash: result.blockHash,
     });
 
     res.status(201).json({
@@ -59,7 +58,7 @@ export const addDonation = async (
       message: 'Donation recorded in blockchain',
       data: {
         donation: donation.toJSON(),
-        blockHash: blockchain.chain[blockchain.chain.length - 1].hash,
+        blockHash: result.blockHash,
       },
     });
   } catch (error) {
@@ -76,18 +75,7 @@ export const getDonations = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const blockchain = blockchainService.getBlockchain();
-    const allDonations: Donation[] = [];
-
-    blockchain.chain.forEach((block) => {
-      if (block.data && Array.isArray(block.data)) {
-        block.data.forEach((item) => {
-          if (item && typeof item === 'object' && item.donor && item.amount) {
-            allDonations.push(Donation.fromJSON(item));
-          }
-        });
-      }
-    });
+    const allDonations = await donationRepo.getAllDonations(); // 🆕 Changed this line
 
     res.status(200).json({
       success: true,

@@ -25,7 +25,7 @@ const errorHandler = async (
   });
 
   logger.error('HTTP Error occurred', {
-    messege: err.message,
+    message: err.message,
     url: req.originalUrl,
     method: req.method,
     statusCode: error.statusCode,

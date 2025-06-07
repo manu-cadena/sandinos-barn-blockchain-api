@@ -1,9 +1,15 @@
+interface Purpose {
+  category: string;
+  description: string;
+  amount: number;
+}
+
 export default class Donation {
   public id: string;
   public donor: string;
   public amount: number;
   public currency: string;
-  public purpose: string;
+  public purposes: Purpose[];
   public timestamp: Date;
   public verified: boolean;
 
@@ -11,20 +17,20 @@ export default class Donation {
     donor,
     amount,
     currency = 'SEK',
-    purpose,
+    purposes,
     verified = false,
   }: {
     donor: string;
     amount: number;
     currency?: string;
-    purpose: string;
+    purposes: Purpose[];
     verified?: boolean;
   }) {
     this.id = this.generateId();
     this.donor = donor;
     this.amount = amount;
     this.currency = currency;
-    this.purpose = purpose;
+    this.purposes = purposes;
     this.timestamp = new Date();
     this.verified = verified;
   }
@@ -37,7 +43,20 @@ export default class Donation {
 
   // Method to validate donation
   public isValid(): boolean {
-    return this.donor.length > 0 && this.amount > 0 && this.purpose.length > 0;
+    if (!this.donor || this.donor.length === 0) return false;
+    if (!this.amount || this.amount <= 0) return false;
+    if (!this.purposes || !Array.isArray(this.purposes) || this.purposes.length === 0) return false;
+    
+    // Validate each purpose
+    for (const purpose of this.purposes) {
+      if (!purpose.category || purpose.category.length === 0) return false;
+      if (!purpose.description || purpose.description.length === 0) return false;
+      if (!purpose.amount || purpose.amount <= 0) return false;
+    }
+    
+    // Validate that sum of purpose amounts equals total amount
+    const totalPurposeAmount = this.purposes.reduce((sum, purpose) => sum + purpose.amount, 0);
+    return Math.abs(totalPurposeAmount - this.amount) < 0.01; // Allow for small floating point differences
   }
 
   // Method to mark as verified
@@ -57,7 +76,7 @@ export default class Donation {
       donor: this.donor,
       amount: this.amount,
       currency: this.currency,
-      purpose: this.purpose,
+      purposes: this.purposes,
       timestamp: this.timestamp.toISOString(),
       verified: this.verified,
     };
@@ -69,11 +88,29 @@ export default class Donation {
       donor: json.donor,
       amount: json.amount,
       currency: json.currency,
-      purpose: json.purpose,
+      purposes: json.purposes,
       verified: json.verified,
     });
     donation.id = json.id;
     donation.timestamp = new Date(json.timestamp);
     return donation;
+  }
+
+  // Get breakdown of purposes
+  public getPurposeBreakdown(): string {
+    return this.purposes
+      .map(p => `${p.category}: ${p.description} (${p.amount} ${this.currency})`)
+      .join(', ');
+  }
+
+  // Get purposes by category
+  public getPurposesByCategory(): { [category: string]: Purpose[] } {
+    return this.purposes.reduce((acc, purpose) => {
+      if (!acc[purpose.category]) {
+        acc[purpose.category] = [];
+      }
+      acc[purpose.category].push(purpose);
+      return acc;
+    }, {} as { [category: string]: Purpose[] });
   }
 }
